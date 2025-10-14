@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party apps
+    'rest_framework', #adds all the features of DRF
+    'rest_framework.authtoken',  # for token authentication
+
+    #local apps
+    'mentorship_api', #this is the app where we will build the actual mentorship logic
 ]
 
 MIDDLEWARE = [
@@ -120,3 +127,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django REST Framework configuration
+# DEFAULT_AUTHENTICATION_CLASSES: defines how users log in or verify who they are.
+# DEFAULT_PERMISSION_CLASSES: defines who can do what.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+}
