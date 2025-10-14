@@ -1,5 +1,6 @@
 # Files that git should ignore
 # Virtual environment
+venv/
 .venv/
 env/
 
