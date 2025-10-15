@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Mentor, Mentee, MentorshipSession
 from .serializers import MentorSerializer, MenteeSerializer, SessionSerializer
@@ -13,18 +15,55 @@ from .serializers import MentorSerializer, MenteeSerializer, SessionSerializer
 # -----------------------
 # Model viewsets (your CRUD endpoints)
 # -----------------------
+# -----------------------
+# Model viewsets (your CRUD endpoints)
+# -----------------------
 class MentorViewSet(viewsets.ModelViewSet):
-    queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Only return mentors linked to the logged-in user
+        return Mentor.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        # Automatically attach the logged-in user as this mentor
+        serializer.save(user=self.request.user)
+
 
 class MenteeViewSet(viewsets.ModelViewSet):
-    queryset = Mentee.objects.all()
     serializer_class = MenteeSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Mentee.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class SessionViewSet(viewsets.ModelViewSet):
-    queryset = MentorshipSession.objects.all()
     serializer_class = SessionSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user
+        # Shows only sessions related to the logged-in user
+        if hasattr(user, 'mentor'):
+            return MentorshipSession.objects.filter(mentor=user.mentor)
+        elif hasattr(user, 'mentee'):
+            return MentorshipSession.objects.filter(mentee=user.mentee)
+        return MentorshipSession.objects.none()
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        if hasattr(user, 'mentor'):
+            serializer.save(mentor=user.mentor)
+        elif hasattr(user, 'mentee'):
+            serializer.save(mentee=user.mentee)
 
 # Auth endpoints (register & login)
 
