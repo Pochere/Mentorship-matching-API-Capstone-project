@@ -1,12 +1,6 @@
-"""
-DefaultRouter() automatically generates RESTful URLs for our ViewSets.
-router.register() connects each ViewSet to a URL prefix (like /mentors/).
-urlpatterns then includes these routes so Django recognizes them.
-"""
-
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import MentorViewSet, MenteeViewSet, SessionViewSet
+from .views import MentorViewSet, MenteeViewSet, SessionViewSet, register_user, CustomAuthToken
 
 router = DefaultRouter()
 router.register(r'mentors', MentorViewSet)
@@ -15,4 +9,6 @@ router.register(r'sessions', SessionViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('auth/register/', register_user, name='register'),
+    path('auth/login/', CustomAuthToken.as_view(), name='login'),
 ]
