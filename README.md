@@ -152,3 +152,9 @@ curl -X POST http://127.0.0.1:8000/api/sessions/ \
      -H "Content-Type: application/json" \
      -H "Authorization: Token YOUR_TOKEN_HERE" \
      -d '{"mentor":1,"mentee":1,"topic":"Business growth planning","date":"2025-10-16","time":"10:00:00","status":"scheduled"}'
+
+
+# Deployment
+     Used **pythonanywhere** to deploy my Mentorship matching API and the URL is as below:
+
+    pochere.pythonanywhere.com
