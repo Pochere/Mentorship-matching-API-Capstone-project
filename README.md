@@ -24,30 +24,6 @@ This project was developed as part of the **ALX Backend Engineering Capstone Pro
 - Each `MentorshipSession` connects one mentor to one mentee with a defined topic, date, and time.
 
 ---
-
-## 📂 **Project Folder Structure**
-```bash
-Mentorship-matching-API-Capstone-project/
-│
-├── mentorship_api/                 # Main project configuration
-│   ├── settings.py                 # Django settings file
-│   ├── urls.py                     # Global URL routing
-│   └── wsgi.py
-│
-├── api/                            # Main API application
-│   ├── models.py                   # Mentor, Mentee, and Session models
-│   ├── serializers.py              # DRF serializers
-│   ├── views.py                    # API views and logic
-│   ├── urls.py                     # API endpoints
-│   ├── admin.py                    # Admin panel registration
-│   └── tests.py                    # Unit tests
-│
-├── manage.py                       # Django management script
-├── requirements.txt                # Project dependencies
-├── README.md                       # Project documentation
-└── db.sqlite3                      # SQLite database
-
----
 ## 🚀 **Key Features**
 ### 👥 User Management
 - Register and authenticate users via token authentication  
@@ -115,9 +91,9 @@ POST   /api/auth/login/          -> Login user and receive authentication token
 
 ### 8. Core API Endpoints
     bash
-GET / POST      /api/mentors/             -> List or create mentors
-GET / POST      /api/mentees/             -> List or create mentees
-GET / POST      /api/sessions/            -> List or create mentorship sessions
+GET / POST     api/mentors/             -> List or create mentors
+GET / POST     api/mentees/             -> List or create mentees
+GET / POST     api/sessions/            -> List or create mentorship sessions
 PUT / PATCH / DELETE  /api/sessions/{id}/ -> Update or delete a session
 
 ### Example API Usage
@@ -157,4 +133,39 @@ curl -X POST http://127.0.0.1:8000/api/sessions/ \
 # Deployment
      Used **pythonanywhere** to deploy my Mentorship matching API and the URL is as below:
 
-    pochere.pythonanywhere.com
+    pochere.pythonanywhere.com and below are the API endpoints:
+
+    Purpose	        Method	         URL
+ 🔐 Admin Dashboard 	—	     https://pochere.pythonanywhere.com/admin/
+
+ 🧭 API Root	       GET	     https://pochere.pythonanywhere.com/api/
+
+👤 Register User	  POST	     https://pochere.pythonanywhere.com/api/auth/register/
+
+🔑 Login User	      POST     	 https://pochere.pythonanywhere.com/api/auth/login/
+
+🧑‍🏫 Mentors	        GET / POST	https://pochere.pythonanywhere.com/api/mentors/
+
+👩‍🎓 Mentees	        GET / POST	https://pochere.pythonanywhere.com/api/mentees/
+
+🗓️ Mentorship Sessions	GET / POST	https://pochere.pythonanywhere.com/api/sessions/
+
+✏️ Update/Delete Session	PUT / PATCH / DELETE	https://pochere.pythonanywhere.com/api/sessions/{id}/
+
+---
+
+## 🔐 Authentication Note
+
+When accessing the API endpoints (for example, [https://pochere.pythonanywhere.com/api/mentors/](https://pochere.pythonanywhere.com/api/mentors/)),  
+you may see a message like this:
+
+```json
+{
+    "detail": "Authentication credentials were not provided."
+}
+This means the API is working correctly but requires authentication.
+Only registered and logged-in users with valid tokens can make requests such as POST, PUT, or DELETE.
+
+If you only want to view or test the admin interface, you can log in through:
+
+👉 https://pochere.pythonanywhere.com/admin/
